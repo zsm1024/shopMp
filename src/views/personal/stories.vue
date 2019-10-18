@@ -3,7 +3,7 @@
   <section class="workers">
     <custom-back-header :leftArrow="true" @goback="goback" title="门店管理"></custom-back-header>
     <div class="workerTable">
-      <van-button color="#7232dd" @click="showAdd" size="small">新增门店</van-button>
+      <van-button color="#7232dd" @click="showAdd" size="small" style="margin:0.1rem">新增门店</van-button>
        <el-table :data="data">
         <el-table-column prop="name" label="名称"></el-table-column>
         <el-table-column prop="shopownerName" label="店长"></el-table-column>
@@ -12,9 +12,9 @@
         <el-table-column prop="address" label="地址"></el-table-column>
          <el-table-column prop="province" label="地址"></el-table-column>
          <el-table-column prop="remark" label="备注"></el-table-column>
-        <el-table-column label="操作" width="120">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click.native.prevent="deletes(scope.row)" type="text" size="small">移除</el-button>
+            <van-button @click.native.prevent="deletes(scope.row)" type="danger" size="mini">移除</van-button>
           </template>
         </el-table-column>
       </el-table>

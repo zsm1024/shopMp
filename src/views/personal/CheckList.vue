@@ -10,7 +10,7 @@
          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
               <div class="listDetial" v-for="(item,index) in list" :key="index" >
                 <p><span>订单编号：{{item.orderCode}}</span></p>     
-                <p><span class="listTime">消费金额：￥{{item.surplusAmount}}</span><span >剩余金额：￥{{item.surplusAmount}}</span></p>
+                <p><span class="listTime">消费金额：￥{{item.consumptionAmount}}</span><span >剩余金额：￥{{item.surplusAmount}}</span></p>
               </div>
         <!-- <van-collapse  v-model="activeNames"> -->
           <!-- <van-collapse-item name="1"> -->

@@ -1,9 +1,10 @@
 <!-- 首页 -->
 <template>
-  <div>
+  <div class="mainDiv">
     <basic-header :leftArrow="true" title="登录页"></basic-header>
     <div class="g-main">
-      <van-cell-group>
+      <p style="width:100%;text-align:center;color:#fff;font-weight:blod;font-size:0.2rem;margin-bottom:.2rem">系统登录 </p>
+      <van-cell-group class="CellGroup">
         <van-field
           :left-icon="icon.username"
           v-model="inputData.username"
@@ -13,7 +14,7 @@
           maxlength="20"
         />
       </van-cell-group>
-      <van-cell-group>
+      <van-cell-group class="CellGroup">
         <van-field
           :left-icon="icon.passWord"
           @click-left-icon="passWordIconFn"
@@ -147,8 +148,14 @@ export default {
 };
 </script>
 <style  scoped>
+.CellGroup{width: 90%;margin:0.2rem auto;}
+ .CellGroup .van-cell{border-radius: .08rem;}
+.mainDiv{background: url("../../static/img/index.png") no-repeat center;background-size: contain;height: 100%;}
 .g-main {
-  margin-top: 70px;
+  margin: 0 5%;
+  margin-top: 30%;
+  padding: .2rem 0;
+  background-color: rgba(160, 160, 160, 0.5)
 }
 .g-footer {
   display: flex;

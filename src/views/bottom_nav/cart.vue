@@ -4,9 +4,13 @@
     <div class="headerTitle">
       <div class="headermain">
         <p class="headCat">
-          <label>
+          <label v-if="authStatus!=0">
             <span>【货物总价】：</span>
             <span>{{cartList.totalPrice}}元</span>
+          </label>
+           <label v-else>
+            <span>【货物总价】：</span>
+            <span></span>
           </label>
           <label>
             <span>【货物总重】：</span>
@@ -46,11 +50,19 @@
             </div>
             <div style="margin-left:.2rem">
               <p>{{items.goodsName}}</p>
-              <p>
+              <p v-if="authStatus!=0">
                 单价：
                 <span>{{items.price}}</span>
               </p>
-              <p>
+               <p v-else>
+                单价：
+                <span></span>
+              </p>
+              <p v-if="authStatus!=0">
+                总价：
+                <span>{{items.price*items.amount}}元</span>
+              </p>
+               <p v-else>
                 总价：
                 <span>{{items.price*items.amount}}元</span>
               </p>
@@ -104,10 +116,16 @@
       <van-action-sheet v-model="show" title="确认订单" @close="closeDia">
         <div class="carts">
           <div class="cartInfo">
-            <p>
-              <span>
+            <p v-if="authStatus!=0">
+              <span >
                 [货物总价]:
                 <span>{{cartList.totalPrice}}</span>
+              </span>
+            </p>
+             <p v-else>
+              <span >
+                [货物总价]:
+                <span></span>
               </span>
             </p>
             <p>
@@ -205,6 +223,7 @@ export default {
   },
   data() {
     return {
+      authStatus:0,
       indeterminate: true,
       checkAll: true,
       checkAllGroup: [],
@@ -255,7 +274,6 @@ export default {
             this.cartIds.push(el.id);
             this.totalWeight += el.amount * el.weight;
           });
-          console.log(this.cartList);
           // this.totalWeight=(parseFloat( this.cartList.cartDetailList.amount)*parseFloat(this.cartList.cartDetailList.weight) )
           this.disabled = false;
         }
@@ -266,7 +284,6 @@ export default {
       //   this.cartList.totalPrice+=(el.amount*el.price)
       //   console.log(el.amount)
       // });
-      console.log(this.checkAllGroup);
       if (data.length === this.cartIds.length) {
         this.indeterminate = false;
         this.checkAll = true;
@@ -294,7 +311,6 @@ export default {
       this.indeterminate = false;
       if (this.checkAll) {
         this.checkAllGroup = this.cartIds;
-        console.log(this.checkAllGroup);
       } else {
         this.checkAllGroup = [];
       }
@@ -303,7 +319,6 @@ export default {
       this.$router.push("/mine");
     },
     onSubmit() {
-      console.log();
       if (this.checkAllGroup.length > 0) {
         this.show = true;
       } else {
@@ -402,6 +417,7 @@ export default {
     this.getCartData();
     this.getStore();
     this.items += this.num;
+     this.authStatus=JSON.parse(localStorage.getItem("userInfo").authStatus)
   }
 };
 </script>

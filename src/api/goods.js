@@ -67,10 +67,10 @@ deleteShopowner: params => {
     checkBillList: params => {
         return http.get("/bill/checkBillList", params)
     },
-    //查看充值记录
-    checkBillList: params => {
-        return http.get("/bill/checkBillList", params)
-    },
+    // //查看充值记录
+    // checkBillList: params => {
+    //     return http.get("/bill/checkBillList", params)
+    // },
     //查看充值记录
     checkRecord: params => {
         return http.get("/preDepositRecord/checkRecord", params)
@@ -79,5 +79,18 @@ deleteShopowner: params => {
     deposit: params => {
         return http.get("/preDeposit/deposit/" + params)
     },
+    //查询自己的预存款金额
+    preDepositcheck: params => {
+        return http.get("/preDeposit/check", params)
+    },
+    
+     // 授权查看价格
+     Auth: (shopowner, authStatus) => {
+        return http.get("/sys/user/Auth/" + shopowner + "/" + authStatus)
+    },
+    //修改密码
+    changPwd: params => {
+        return http.post("/sys/user/change/password",params)
+    }
 
 }

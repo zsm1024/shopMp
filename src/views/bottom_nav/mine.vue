@@ -7,18 +7,18 @@
         <van-row>
           <van-col span="8" class="iconImg"></van-col>
           <van-col span="6"></van-col>
-          <van-col span="10" class="userName">家乐福便利店</van-col>
+          <van-col span="10" class="userName">{{username}}</van-col>
           <!-- <van-col span="7" class="cartList">
             <span >账单</span>
           </van-col> -->
         </van-row>
-        <div>
+        <div v-if="level==1">
           <span class="Icon pre">
             <van-icon name="balance-list" />
           </span>
-          <span>预存款</span>
-          <span class="money">5000.00元</span>
-            <span class="money" @click="checkMoney" v-if="level==1">充值</span>
+          <span>账户余额：</span>
+          <span>{{accountBalance}}元</span>
+          <van-button class="money" type="info" @click="checkMoney" size="mini">充值</van-button>
         </div>
         <!-- <div>
           <span class="Icon members">
@@ -29,9 +29,9 @@
       </div>
     </div>
     <div class="list MyOrder">
-      <div @click="checkWorker">
+      <!-- <div @click="checkWorker">
         <van-icon name="friends-o" />员工管理
-      </div>
+      </div> -->
       <div @click="StroiesList">
         <van-icon name="send-gift-o" />门店管理
       </div>
@@ -39,7 +39,7 @@
         <van-icon name="manager-o" />店长管理
       </div>
       <div @click="checkList" v-if="level==1">
-        <!--  -->
+         <!--  -->
         <van-icon name="balance-list-o" />我的账单
       </div>
       <div @click="checkOrder">
@@ -47,6 +47,9 @@
       </div>
       <div @click="changePass">
         <van-icon name="eye-o" />密码管理
+      </div>
+       <div @click="login">
+        <van-icon name="setting-o" />退出登录
       </div>
     </div>
     <!-- <div class="MyOrder">
@@ -120,8 +123,7 @@
     <van-popup v-model="show" style="width:80%" :closeable="true">
       <p style="display:flex;align-items:center;margin-top:.3rem;padding:.1rem"><van-field style="width:2rem" type="number" v-model="checkIn" placeholder="请输入充值金额" />
       <van-button type="primary" size="small" @click="confirmCheck">确认充值</van-button>
-      </p>
-      
+      </p>     
     </van-popup>
   </div>
   
@@ -141,10 +143,12 @@ export default {
   data() {
     return {
       show:false,
+      accountBalance:"",
       level:"",
       active: 1,
       value1: "",
       checkIn:"",
+      username:"",
       selectData: [
         {
           text: "name1",
@@ -161,9 +165,15 @@ export default {
   },
   computed: {},
   mounted() {
-    this.level=JSON.parse(localStorage.getItem("userInfo")).level
+    this.level=JSON.parse(localStorage.getItem("userInfo")).level;
+    this.username=JSON.parse(localStorage.getItem("userInfo")).account
+    this.checkMoneys()
   },
   methods: {
+    login(){
+        this.$router.push({ path: "/login" });
+      localStorage.clear()
+    },
     shoper(){
       this.$router.push({ path: "/shoper" });
     },
@@ -211,13 +221,22 @@ export default {
       this.checkIn=""
              }
       })
+    },
+    //查询账户余额
+    checkMoneys(){
+      api.preDepositcheck({}).then(res =>{
+        if(!res.error){
+          this.accountBalance=res.data.accountBalance
+        }
+      })
     }
+    
   }
 };
 </script>
 <style lang="less"  scoped>
 .iconImg{background: url("../../assets/user.jpg") no-repeat 100%
-;background-image: convert}
+;background-size:contain}
 .profile {
   background: #fafafa;
 }

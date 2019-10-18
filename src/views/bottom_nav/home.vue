@@ -20,9 +20,11 @@
                     style="width:100%"
                   >
                     <van-col span="14">
-                      <p>
-                        <span>价格:</span>{{item.price}}元/{{item.unit}}
+                       <p v-if="authStatus!=0">
+                        <span >价格:</span>{{item.price}}元/{{item.unit}}                     
                       </p>
+                      <p v-else><span >价格:</span></p>
+                    </van-col>
                     </van-col>
                     <van-col span="10">
                       <span>规格：</span>{{item.specification}}
@@ -44,13 +46,13 @@
                       <span>仓库：</span>{{item.wareHose}}
                     </van-col>
                   </van-col>
-                  <van-col type="flex" gutter="10" justify="space-between" style="width:100%">
+                  <!-- <van-col type="flex" gutter="10" justify="space-between" style="width:100%">
                     <van-col span="14">
                       <p>
                         <span>已加购:</span>80元/箱
                       </p>
                     </van-col>
-                  </van-col>
+                  </van-col> -->
                   <van-col
                     class="types"
                     type="flex"
@@ -67,7 +69,6 @@
                     </van-col>
                     <van-col span="8">下单</van-col>
                   </van-col>
-                </van-col>
               </van-row>
               <div class="checkCom">
                 <span>同品牌</span>
@@ -93,9 +94,10 @@
                     style="width:100%"
                   >
                     <van-col span="14">
-                      <p>
-                        <span>价格:</span>{{item.price}}元/{{item.unit}}
+                      <p v-if="authStatus!=0">
+                        <span >价格:</span>{{item.price}}元/{{item.unit}}                     
                       </p>
+                      <p v-else><span >价格:</span></p>
                     </van-col>
                     <van-col span="10">
                       <span>规格：</span>{{item.specification}}
@@ -117,13 +119,13 @@
                       <span>仓库：</span>{{item.wareHose}}
                     </van-col>
                   </van-col>
-                  <van-col type="flex" gutter="10" justify="space-between" style="width:100%">
+                  <!-- <van-col type="flex" gutter="10" justify="space-between" style="width:100%">
                     <van-col span="14">
                       <p>
                         <span>已加购:</span>80元/箱
                       </p>
                     </van-col>
-                  </van-col>
+                  </van-col> -->
                   <van-col
                     class="types"
                     type="flex"
@@ -167,6 +169,7 @@ import api from "../../api/goods";
 export default {
   data() {
     return {
+      authStatus:0,
       active: 0,
       value: 1,
       list: [],
@@ -281,6 +284,9 @@ ProId:0
   },
   mounted() {
     this.getDataList(1)
+    //获取用户授权提示
+    this.authStatus=JSON.parse(localStorage.getItem("userInfo").authStatus)
+
   },
   components: {}
     // basicHeader,

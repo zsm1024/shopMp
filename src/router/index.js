@@ -119,7 +119,7 @@ export default new Router({
             name: '修改密码',
             component:password,
             meta: {
-                showFooter: true
+                showFooter: false
             }
         },
         {

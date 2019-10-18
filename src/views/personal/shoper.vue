@@ -3,42 +3,21 @@
   <section class="workers">
     <custom-back-header :leftArrow="true" @goback="goback" title="店长管理"></custom-back-header>
     <div class="workerTable">
-      <van-button color="#7232dd" @click="showPopup" size="small">新增店长</van-button>
+      <van-button color="#7232dd" @click="showPopup" size="small" style="margin:0.1rem">新增店长</van-button>
       <el-table :data="data">
         <el-table-column prop="account" label="账号"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column label="操作" width="120">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button @click.native.prevent="check(scope.row)" type="text" size="small">移除</el-button>
-            <el-button
-              @click.native.prevent="handleResetPassword(scope.row)"
-              type="text"
-              size="small"
-            >密码重置</el-button>
+            <van-button v-if="scope.row.authStatus==0"  type="info" @click.native.prevent="give(scope.row)"  size="mini">授权</van-button>
+            <van-button v-if="scope.row.authStatus==1"  type="primary" @click.native.prevent="cancleSCope(scope.row)"  size="mini">取消授权</van-button>
+            <van-button  @click.native.prevent="check(scope.row)" type="danger" size="mini"> 移除</van-button>
+            <van-button   @click.native.prevent="handleResetPassword(scope.row)" type="warning" size="mini"> 密码重置</van-button>
           </template>
         </el-table-column>
       </el-table>
-      <!-- <van-row type="flex">
-        <van-col span="6">账号</van-col>
-        <van-col span="6">姓名</van-col>
-        <van-col span="6">电话</van-col>
-        <van-col span="6">邮箱</van-col>
-        <van-col span="6">操作</van-col>
-      </van-row>
-    </div>
-    <div class="tableDetial">
-      <van-row type="flex" v-for="(item,index) in data" :key="index">
-        <van-col span="6">{{item.account}}</van-col>
-        <van-col span="6">{{item.name}}</van-col>
-        <van-col span="6">{{item.phone}}</van-col>
-        <van-col span="6">{{item.email}}</van-col>
-        <van-col span="8">
-          <span @click="check(item)" style="color:red;display:inline-block;line-height:40px">删除</span>
-          <span @click="handleResetPassword(item.id)" style="color:#7232dd;display:inline-block;line-height:40px">密码重置</span>
-        </van-col>
-      </van-row>-->
     </div>
     <van-popup v-model="show" style="width:80%;top:30%">
       <van-cell-group>
@@ -91,13 +70,19 @@ export default {
             message: "删除成功！",
             type: "success"
           });
-          this.checkShopownerList()
+          this.checkShopownerList();
         }
       });
-      console.log(item);
     },
     give(item) {
-      console.log(item);
+      let authStatus = 1;
+      let userId = item.id;
+      api.Auth(userId, authStatus).then(res => {});
+    },
+    cancleSCope(item) {
+       let authStatus = 0;
+      let userId = item.id;
+      api.Auth(userId, authStatus).then(res => {});
     },
     showPopup() {
       this.show = true;
